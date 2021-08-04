@@ -24,5 +24,7 @@ server.listen(port,hostname, ()=>{
 });
 
 //import routers
+const tasksController = require("./routes/tasks");
 
 //tell the app to use those routers
+app.use("/tasks", tasksController);
