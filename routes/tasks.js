@@ -4,7 +4,6 @@ const TaskModel = require("../models/TaskModel");
 //create a router
 const router = express.Router();
 
-//create get route to get all of the task data or a specific game's data on the games route
 router.get("/", async(req,res)=>{
     const taskData = await TaskModel.getAllTaskData();
     res.json(taskData).status(200);
