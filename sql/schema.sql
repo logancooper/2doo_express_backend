@@ -3,7 +3,7 @@ CREATE TABLE tasks(
     content text default NULL,
     completed bool default false,
     favorited bool default false,
-    overdue bool default false,
+    has_due_date bool default false,
     date_created TIMESTAMP default NOW(),
     due_date TIMESTAMP
 );

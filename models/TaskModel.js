@@ -15,8 +15,10 @@ class TaskModel {
     static async getAllTaskData()
     {
         try{
-            const query = `SELECT * FROM tasks`;
+            const query = `SELECT * FROM tasks
+                            ORDER BY favorited DESC`;
             const response = await db.any(query);
+
             return response;
         }
         catch(error)
@@ -26,12 +28,25 @@ class TaskModel {
         }
     }
 
-    static async addTask(content) {
+    static async addTask(content, dueDate, hasDueDate) {
+        
         try {
-            const query = `INSERT INTO tasks
-                                (content)
-                            VALUES
-                            ('${content}');`
+            let query;
+            if(hasDueDate)
+            {
+                query = `INSERT INTO tasks
+                (content, due_date, has_due_date)
+                VALUES
+                ('${content}', to_timestamp(${dueDate}/1000), ${hasDueDate});`
+            }
+            else
+            {
+                query = `INSERT INTO tasks
+                (content, due_date, has_due_date)
+                VALUES
+                ('${content}', ${dueDate}, ${hasDueDate});`
+            }
+
             const response = await db.result(query);
             return response;
         }
@@ -60,6 +75,21 @@ class TaskModel {
         try {
             const query = `UPDATE tasks
                             SET completed = NOT completed
+                            WHERE id = ${taskID};`
+            const response = await db.result(query);
+            return response;
+        }
+        catch(error)
+        {
+            console.error("ERROR: ", error);
+            return error;
+        }
+    }
+
+    static async toggleTaskFavorited(taskID) {
+        try {
+            const query = `UPDATE tasks
+                            SET favorited = NOT favorited
                             WHERE id = ${taskID};`
             const response = await db.result(query);
             return response;
