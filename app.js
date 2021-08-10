@@ -3,7 +3,7 @@
 //set up http module
 const http = require("http");
 const hostname = "127.0.0.1";
-const port = "3000";
+const port = "3434";
 const cors = require('cors');
 
 //set up express app
